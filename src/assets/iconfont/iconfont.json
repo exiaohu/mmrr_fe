@@ -1,0 +1,16 @@
+{
+  "id": "2111793",
+  "name": "mmrr_fe",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1160514",
+      "name": "ionic",
+      "font_class": "ionic",
+      "unicode": "e712",
+      "unicode_decimal": 59154
+    }
+  ]
+}
