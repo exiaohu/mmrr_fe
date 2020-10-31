@@ -12,7 +12,7 @@ export default defineConfig({
     hmr: true,
   },
   layout: {
-    name: 'Ant Design Pro',
+    name: 'Multi-Mode Route Recommendation',
     locale: true,
   },
   locale: {
@@ -20,7 +20,7 @@ export default defineConfig({
     default: 'zh-CN',
     antd: true,
     // default true, when it is true, will use `navigator.language` overwrite default
-    baseNavigator: true,
+    baseNavigator: false,
   },
   dynamicImport: {
     loading: '@/components/PageLoading/index',
@@ -47,27 +47,51 @@ export default defineConfig({
       icon: 'smile',
       component: './Welcome',
     },
+    // {
+    //   path: '/admin',
+    //   name: 'admin',
+    //   icon: 'crown',
+    //   access: 'canAdmin',
+    //   component: './Admin',
+    //   routes: [
+    //     {
+    //       path: '/admin/sub-page',
+    //       name: 'sub-page',
+    //       icon: 'smile',
+    //       component: './Welcome',
+    //     },
+    //   ],
+    // },
     {
-      path: '/admin',
-      name: 'admin',
-      icon: 'crown',
-      access: 'canAdmin',
-      component: './Admin',
-      routes: [
-        {
-          path: '/admin/sub-page',
-          name: 'sub-page',
-          icon: 'smile',
-          component: './Welcome',
-        },
-      ],
-    },
-    {
-      name: 'list.table-list',
+      name: 'data',
       icon: 'table',
-      path: '/list',
+      path: '/data',
       component: './ListTableList',
     },
+    {
+      name: 'road_net',
+      icon: 'environment',
+      path: '/road_net',
+      component: './RoadNet',
+    },
+    {
+      name: 'route',
+      icon: 'line',
+      path: '/route',
+      component: './Route',
+    },
+    {
+      name: 'availability',
+      icon: 'aim',
+      path: '/availability',
+      component: './Availability',
+    },
+    // {
+    //   name: 'map',
+    //   icon: 'environment',
+    //   path: '/map',
+    //   component: './Map'
+    // },
     {
       path: '/',
       redirect: '/welcome',

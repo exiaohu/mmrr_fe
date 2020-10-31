@@ -49,4 +49,9 @@ export default {
   'menu.editor.flow': '流程编辑器',
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
+  'menu.map': '地图',
+  'menu.data': '基础数据与特征',
+  'menu.road_net': '路段状态可视化',
+  'menu.route': '出行方案推荐',
+  'menu.availability': '载具可用性展示',
 };
