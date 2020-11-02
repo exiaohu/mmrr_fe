@@ -74,12 +74,7 @@ const RoadNet: React.FC = () => {
     })();
   }, []);
   return (
-    // <PageContainer>
-    //    <Card>
-    //  <Image src='tmp/road_net.png'/>
     <div id="map" className="map" style={{ height: '800px' }} />
-    //  </Card>
-    // </PageContainer>
   );
 };
 

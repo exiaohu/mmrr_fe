@@ -8,23 +8,38 @@
 export default {
   dev: {
     '/geoserver/': {
-      target: ' http://localhost:8080',
+      target: 'http://localhost:8080',
       changeOrigin: true,
-      pathRewrite: { '^': '' },
+      pathRewrite: {'^': ''},
     },
+    '/api/': {
+      target: 'http://localhost:8888',
+      changeOrigin: true,
+      pathRewrite: {'^': ''},
+    }
   },
   test: {
-    '/api/': {
-      target: 'https://preview.pro.ant.design',
+    '/geoserver/': {
+      target: 'http://localhost:8080',
       changeOrigin: true,
-      pathRewrite: { '^': '' },
+      pathRewrite: {'^': ''},
     },
+    '/api/': {
+      target: 'http://localhost:8888',
+      changeOrigin: true,
+      pathRewrite: {'^': ''},
+    }
   },
   pre: {
-    '/api/': {
-      target: 'your pre url',
+    '/geoserver/': {
+      target: 'http://localhost:8080',
       changeOrigin: true,
-      pathRewrite: { '^': '' },
+      pathRewrite: {'^': ''},
     },
+    '/api/': {
+      target: 'http://localhost:8888',
+      changeOrigin: true,
+      pathRewrite: {'^': ''},
+    }
   },
 };
