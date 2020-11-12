@@ -1,6 +1,6 @@
-import { Button } from 'antd';
+import {Button} from 'antd';
 
-import { ButtonProps } from 'antd/es/button';
+import {ButtonProps} from 'antd/es/button';
 import React from 'react';
 import classNames from 'classnames';
 import styles from './index.less';

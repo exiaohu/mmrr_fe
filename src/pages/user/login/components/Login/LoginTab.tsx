@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { Tabs } from 'antd';
-import LoginContext, { LoginContextProps } from './LoginContext';
+import React, {useEffect} from 'react';
+import {Tabs} from 'antd';
+import LoginContext, {LoginContextProps} from './LoginContext';
 
-const { TabPane } = Tabs;
+const {TabPane} = Tabs;
 
 const generateId = (() => {
   let i = 0;

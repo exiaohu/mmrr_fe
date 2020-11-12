@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import {Request, Response} from 'express';
 
 function getFakeCaptcha(req: Request, res: Response) {
   return res.json('captcha-xxx');

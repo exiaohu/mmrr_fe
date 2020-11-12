@@ -1,4 +1,4 @@
-import { isUrl } from './utils';
+import {isUrl} from './utils';
 
 describe('isUrl tests', (): void => {
   it('should return false for invalid and corner case inputs', (): void => {

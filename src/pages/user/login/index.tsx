@@ -1,14 +1,14 @@
-import { AlipayCircleOutlined, TaobaoCircleOutlined, WeiboCircleOutlined } from '@ant-design/icons';
-import { Alert, Checkbox, message } from 'antd';
-import React, { useState } from 'react';
-import { Link, SelectLang, useModel, history, History } from 'umi';
+import {AlipayCircleOutlined, TaobaoCircleOutlined, WeiboCircleOutlined} from '@ant-design/icons';
+import {Alert, Checkbox, message} from 'antd';
+import React, {useState} from 'react';
+import {history, History, Link, SelectLang, useModel} from 'umi';
 import logo from '@/assets/logo.svg';
-import { LoginParamsType, fakeAccountLogin } from '@/services/login';
+import {fakeAccountLogin, LoginParamsType} from '@/services/login';
 import Footer from '@/components/Footer';
 import LoginFrom from './components/Login';
 import styles from './style.less';
 
-const { Tab, Username, Password, Mobile, Captcha, Submit } = LoginFrom;
+const {Tab, Username, Password, Mobile, Captcha, Submit} = LoginFrom;
 
 const LoginMessage: React.FC<{
   content: string;
