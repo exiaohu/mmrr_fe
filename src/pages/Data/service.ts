@@ -1,5 +1,5 @@
-import { request } from 'umi';
-import { TableListParams, TableListItem } from './data.d';
+import {request} from 'umi';
+import {TableListItem, TableListParams} from './data.d';
 
 export async function queryRule(params?: TableListParams) {
   return request('/api/rule', {

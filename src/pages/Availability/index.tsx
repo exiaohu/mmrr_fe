@@ -1,14 +1,10 @@
 import React from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import { Card, Image } from 'antd';
+import OLMapWrapper from "@/components/OLMap";
 
 const MapView: React.FC = () => {
   return (
-    <PageContainer>
-      <Card>
-        <Image src="tmp/availability.png" />
-      </Card>
-    </PageContainer>
+    <OLMapWrapper onclick={() => {
+    }}/>
   );
 };
 

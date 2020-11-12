@@ -4,21 +4,20 @@ import {Card} from "antd";
 
 export type PopupProps = {
   visible: boolean,
-  child?: React.ReactNode,
   x?: number,
   y?: number,
   setVisible?: (v: boolean) => void
 }
 
-const Popup: React.FC<PopupProps> = ({child, visible, x, y, setVisible}) => {
-  return visible ? <Card
-    onAbort={() => setVisible && setVisible(false)}
+const Popup: React.FC<PopupProps> = (props) => {
+  return props.visible ? <Card
+    onAbort={() => props.setVisible && props.setVisible(false)}
     size='small'
     className="popup"
     style={{
-      left: `${x}px`, top: `${y}px`
+      left: `${props.x}px`, top: `${props.y}px`
     }}>
-    {child}
+    {props.children}
   </Card> : null;
 }
 

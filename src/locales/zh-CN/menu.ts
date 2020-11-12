@@ -54,4 +54,5 @@ export default {
   'menu.road_net': '路段状态可视化',
   'menu.route': '出行方案推荐',
   'menu.availability': '载具可用性展示',
+  'menu.results': '实验结果展示',
 };

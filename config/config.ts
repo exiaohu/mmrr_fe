@@ -1,5 +1,5 @@
 // https://umijs.org/config/
-import { defineConfig } from 'umi';
+import {defineConfig} from 'umi';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 
@@ -66,7 +66,7 @@ export default defineConfig({
       name: 'data',
       icon: 'table',
       path: '/data',
-      component: './ListTableList',
+      component: './Data',
     },
     {
       name: 'road_net',
@@ -76,22 +76,22 @@ export default defineConfig({
     },
     {
       name: 'route',
-      icon: 'line',
+      icon: 'bulb',
       path: '/route',
       component: './Route',
     },
     {
       name: 'availability',
-      icon: 'aim',
+      icon: 'car',
       path: '/availability',
       component: './Availability',
     },
-    // {
-    //   name: 'map',
-    //   icon: 'environment',
-    //   path: '/map',
-    //   component: './Map'
-    // },
+    {
+      name: 'results',
+      icon: 'experiment',
+      path: '/results',
+      component: './Results'
+    },
     {
       path: '/',
       redirect: '/welcome',
