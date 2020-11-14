@@ -1,3 +1,5 @@
+import {Moment} from "moment";
+
 type ModelType = 'public' | 'car' | 'walk' | 'taxi';
 
 type RoutingPath = {
@@ -37,11 +39,11 @@ export interface RoutingData {
 }
 
 export interface RoutingParams {
-  origin_location: Coordinate,
-  dest_location: Coordinate,
-  timestamp?: number,
+  origin_location: { lat: number, lng: number },
+  dest_location: { lat: number, lng: number },
+  timestamp?: Moment | number,
   modals?: ModelType[],
-  preference?: Preference,
+  preference?: 'default' | 'distance' | 'time' | 'price' | 'transfer_time',
   total?: number
 }
 

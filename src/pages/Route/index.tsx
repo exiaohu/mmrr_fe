@@ -19,10 +19,15 @@ import {Feature} from "ol";
 import {LineString, Point} from "ol/geom";
 import {Icon, Stroke, Style} from "ol/style";
 import OLMapWrapper from "@/components/OLMap";
+import {Moment} from "moment";
 import {routing} from "./service";
 import {RoutingParams, RoutingPlan} from "./data";
 
-const MapView: React.FC = () => {
+const [MAX_LNG, MIN_LNG] = [116.495, 116.265];
+const [MAX_LAT, MIN_LAT] = [39.995, 39.820];
+
+
+const RoutingView: React.FC = () => {
   const trace = new Feature();
   trace.setStyle(new Style({
     stroke: new Stroke({
@@ -80,17 +85,6 @@ const MapView: React.FC = () => {
     trace.setGeometry(undefined);
     form.resetFields();
   };
-
-  const onFinish = (params: RoutingParams) => {
-    // console.log(params);
-    routing({
-      ...params,
-      total: 3
-    })
-      .then(data => {
-        setPlans(data.plans);
-      });
-  }
 
   const planList = <Collapse
     accordion
@@ -175,8 +169,31 @@ const MapView: React.FC = () => {
     wrapperCol={{span: 20}}
     layout="horizontal"
     size='small'
-    onFinish={onFinish}
+    onFinish={(params: RoutingParams) => {
+      routing({
+        ...params,
+        timestamp: (params.timestamp as Moment)?.unix(),
+        total: 3
+      })
+        .then(data => {
+          setPlans(data.plans);
+        });
+    }}
     onReset={onReset}
+    validateMessages={{
+      // eslint-disable-next-line no-template-curly-in-string
+      required: '请填写${label}!',
+      types: {
+        // eslint-disable-next-line no-template-curly-in-string
+        email: '${label}不是合法的邮箱地址！',
+        // eslint-disable-next-line no-template-curly-in-string
+        number: '${label}不是合法的数字！',
+      },
+      number: {
+        // eslint-disable-next-line no-template-curly-in-string
+        range: '${label}必须在 ${min} 和 ${max} 之间。',
+      },
+    }}
   >
     <Form.Item label="交通模式" name='modals' initialValue={['walking', 'driving', 'taxi', 'public']}>
       <Checkbox.Group>
@@ -198,20 +215,28 @@ const MapView: React.FC = () => {
     </Form.Item>
     <Form.Item label="起点" name='origin_location'>
       <Input.Group compact>
-        <Form.Item noStyle fieldKey={['origin_location', 'lng']} required name={['origin_location', 'lng']}>
+        <Form.Item label='经度' noStyle fieldKey={['origin_location', 'lng']}
+                   rules={[{required: true}, {type: 'number', min: MIN_LNG, max: MAX_LNG}]}
+                   name={['origin_location', 'lng']}>
           <InputNumber style={{width: '50%'}} placeholder="经度"/>
         </Form.Item>
-        <Form.Item noStyle fieldKey={['origin_location', 'lat']} required name={['origin_location', 'lat']}>
+        <Form.Item label='纬度' noStyle fieldKey={['origin_location', 'lat']}
+                   rules={[{required: true}, {type: 'number', min: MIN_LAT, max: MAX_LAT}]}
+                   name={['origin_location', 'lat']}>
           <InputNumber style={{width: '50%'}} placeholder="纬度"/>
         </Form.Item>
       </Input.Group>
     </Form.Item>
     <Form.Item label="终点" name='dest_location'>
       <Input.Group compact>
-        <Form.Item noStyle fieldKey={['dest_location', 'lng']} required name={['dest_location', 'lng']}>
+        <Form.Item label='经度' noStyle fieldKey={['dest_location', 'lng']}
+                   rules={[{required: true}, {type: 'number', min: MIN_LNG, max: MAX_LNG}]}
+                   name={['dest_location', 'lng']}>
           <InputNumber style={{width: '50%'}} placeholder="经度"/>
         </Form.Item>
-        <Form.Item noStyle fieldKey={['dest_location', 'lat']} required name={['dest_location', 'lat']}>
+        <Form.Item label='纬度' noStyle fieldKey={['dest_location', 'lat']}
+                   rules={[{required: true}, {type: 'number', min: MIN_LAT, max: MAX_LAT}]}
+                   name={['dest_location', 'lat']}>
           <InputNumber style={{width: '50%'}} placeholder="纬度"/>
         </Form.Item>
       </Input.Group>
@@ -219,7 +244,7 @@ const MapView: React.FC = () => {
     <Form.Item label="出发时间" name='timestamp'>
       <DatePicker showTime showNow/>
     </Form.Item>
-    <Form.Item label="用户偏好" name='preference'>
+    <Form.Item label="用户偏好" name='preference' initialValue='default'>
       <Radio.Group>
         <Radio.Button value="default">推荐方案</Radio.Button>
         <Radio.Button value="distance">路程最短</Radio.Button>
@@ -256,4 +281,4 @@ const MapView: React.FC = () => {
   </OLMapWrapper>
 };
 
-export default MapView;
+export default RoutingView;
