@@ -28,19 +28,19 @@ const [MAX_LAT, MIN_LAT] = [39.995, 39.820];
 
 
 const RoutingView: React.FC = () => {
-  const trace = new Feature();
-  trace.setStyle(new Style({
-    stroke: new Stroke({
-      color: '#00ffff',
-      width: 5
-    }),
-  }));
+  const [trace] = useState<Feature>(new Feature());
 
   const [plans, setPlans] = useState<RoutingPlan[]>();
   const [popupProps, setPopupProps] = useState<PopupProps>({visible: false});
   const [coord, setCoord] = useState<[number, number]>();
   const [origin] = useState<Feature<Point>>(new Feature());
   const [destination] = useState<Feature<Point>>(new Feature());
+  trace.setStyle(new Style({
+    stroke: new Stroke({
+      color: '#00ffff',
+      width: 5
+    }),
+  }));
   origin.setStyle(new Style({
     image: new Icon({
       anchor: [0.5, 1],
@@ -137,6 +137,7 @@ const RoutingView: React.FC = () => {
               }
             })
           }
+          setPopupProps({visible: false})
         }}
       >设为起点</Button>
       <Divider type="vertical"/>
@@ -153,6 +154,7 @@ const RoutingView: React.FC = () => {
               }
             })
           }
+          setPopupProps({visible: false})
         }}
       >设为终点</Button>
       <Divider type="vertical"/>
@@ -259,7 +261,7 @@ const RoutingView: React.FC = () => {
     </Form.Item>
   </Form>;
 
-  return <OLMapWrapper features={[origin, destination, trace]} onclick={onclick}>
+  return <OLMapWrapper baseMap='OSM' features={[origin, destination, trace]} onclick={onclick}>
     <Affix style={{position: 'absolute', zIndex: 10, right: 40, top: 40}}>
       <Card>
         <Row>

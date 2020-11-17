@@ -12,7 +12,7 @@ export default defineConfig({
     hmr: true,
   },
   layout: {
-    name: 'Multi-Mode Route Recommendation',
+    name: '多模交通路线推荐',
     locale: true,
   },
   locale: {

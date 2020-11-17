@@ -3,7 +3,7 @@ import OLMapWrapper from "@/components/OLMap";
 
 const MapView: React.FC = () => {
   return (
-    <OLMapWrapper onclick={() => {
+    <OLMapWrapper baseMap="simple" onclick={() => {
     }}/>
   );
 };

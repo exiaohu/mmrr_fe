@@ -78,8 +78,8 @@ const Login: React.FC<{}> = () => {
         <div className={styles.top}>
           <div className={styles.header}>
             <Link to="/">
-              <img alt="logo" className={styles.logo} src={logo} />
-              <span className={styles.title}>Multi-Mode Route Recommendation</span>
+              <img alt="logo" className={styles.logo} src={logo}/>
+              <span className={styles.title}>多模交通路线推荐</span>
             </Link>
           </div>
           <div className={styles.desc}>所谓诚其意者，毋自欺也。如恶恶臭，如好好色，此之谓自谦。故君子必慎其独也</div>

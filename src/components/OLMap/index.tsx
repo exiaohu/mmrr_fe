@@ -1,25 +1,26 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Map from 'ol/Map'
 import View from 'ol/View'
-import TileLayer from 'ol/layer/Tile'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
-import {OSM} from "ol/source";
 import {Coordinate, toStringXY} from "ol/coordinate";
 import './index.css';
 import Feature from "ol/Feature";
 import Geometry from "ol/geom/Geometry";
 import Collection from "ol/Collection";
 import BaseLayer from "ol/layer/Base";
+import {GeoJSON} from "ol/format";
+import TileLayer from "ol/layer/Tile";
+import {OSM} from "ol/source";
 
 type OLMapProps = {
-  layers?: BaseLayer[],
+  baseMap: 'simple' | 'OSM',
+  extraLayers?: BaseLayer[] | BaseLayer,
   features?: Feature<Geometry>[] | Collection<Feature<Geometry>>,
   onclick?: (coord: [number, number], pixel: [number, number], map?: Map) => void
 }
 
 const OLMapWrapper: React.FC<OLMapProps> = (props) => {
-
   // set intial state
   const [map, setMap] = useState<Map>()
   const [featuresLayer, setFeaturesLayer] = useState<VectorLayer>()
@@ -38,41 +39,46 @@ const OLMapWrapper: React.FC<OLMapProps> = (props) => {
     const initalFeaturesLayer = new VectorLayer({
       source: new VectorSource()
     })
+    const initialLayers: BaseLayer[] = props.baseMap === 'simple' ? [
+      new VectorLayer({
+        source: new VectorSource({
+          format: new GeoJSON(),
+          url: '/map/china.geojson'
+        }),
+        // style: styleFunction,
+      }),
+      new VectorLayer({
+        source: new VectorSource({
+          format: new GeoJSON(),
+          url: '/map/beijing.geojson'
+        }),
+        // style: styleFunction,
+      }),
+    ] : [
+      new TileLayer({
+        source: new OSM()
+      }),
+    ];
+
+    const layers = initialLayers;
+    if (props.extraLayers) {
+      if (Array.isArray(props.extraLayers)) {
+        layers.push(...props.extraLayers)
+      } else {
+        layers.push(props.extraLayers);
+      }
+    }
 
     // create map
     const initialMap = new Map({
       target: mapElement.current || undefined,
-      layers: [
-        new TileLayer({
-          source: new OSM()
-        }),
-        ...(props.layers || []),
-        initalFeaturesLayer
-      ],
+      layers: layers.concat([initalFeaturesLayer]),
       view: new View({
         center: [(116.496266 + 116.271389) / 2, (39.989214 + 39.832525) / 2],
         zoom: 12,
         projection: 'EPSG:4326'
       }),
       controls: []
-    })
-
-    // set map onclick handler
-    initialMap.on('click', (event) => {
-      // get clicked coordinate using mapRef to access current React state inside OpenLayers callback
-      //  https://stackoverflow.com/a/60643670
-
-      const clickedCoord = mapRef.current && mapRef.current.getCoordinateFromPixel(event.pixel);
-
-      if (props.onclick) {
-        props.onclick(
-          [event.coordinate[0], event.coordinate[1]],
-          [event.pixel[0], event.pixel[1]],
-          mapRef.current
-        );
-      }
-      // set React state
-      setSelectedCoord(clickedCoord);
     })
 
     // save map and vector layer references to state
@@ -91,6 +97,35 @@ const OLMapWrapper: React.FC<OLMapProps> = (props) => {
       )
     }
   }, [props.features])
+
+  useEffect(() => {
+    // set map onclick handler
+    if (map) {
+      map.on('click', (event) => {
+        // get clicked coordinate using mapRef to access current React state inside OpenLayers callback
+        //  https://stackoverflow.com/a/60643670
+
+        const clickedCoord = mapRef.current && mapRef.current.getCoordinateFromPixel(event.pixel);
+
+        if (props.onclick) {
+          props.onclick(
+            [event.coordinate[0], event.coordinate[1]],
+            [event.pixel[0], event.pixel[1]],
+            mapRef.current
+          );
+        }
+        // set React state
+        setSelectedCoord(clickedCoord);
+      })
+    }
+  }, [props.onclick])
+
+
+  // useEffect(() => {
+  //   if (map) {
+  //
+  //   }
+  // }, [props.extraLayers])
 
   // render component
   return (

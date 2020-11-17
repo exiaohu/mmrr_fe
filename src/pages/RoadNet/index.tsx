@@ -1,29 +1,46 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import TileLayer from 'ol/layer/Tile';
 import {TileWMS} from 'ol/source';
 import WMSServerType from 'ol/source/WMSServerType';
-import {Descriptions, notification} from 'antd';
+import {Affix, Card, Descriptions, Form, notification, Switch} from 'antd';
 import OLMapWrapper from "@/components/OLMap";
 
 const RoadNet: React.FC = () => {
-  const source = new TileWMS({
+
+  const styles = ['beijing_traffic:bus_line', 'beijing_traffic:subway_line',
+    'beijing_traffic:bus_stop', 'beijing_traffic:subway_stop'];
+  const layers = ['beijing_traffic:bus_lines', 'beijing_traffic:subway_lines',
+    'beijing_traffic:bus_stops', 'beijing_traffic:subway_stops'];
+
+  const [bl, setBL] = useState(true)
+  const [sl, setSL] = useState(true)
+  const [bs, setBS] = useState(true)
+  const [ss, setSS] = useState(true)
+
+  const [source] = useState(new TileWMS({
     url: '/geoserver/beijing_traffic/wms',
     params: {
       FORMAT: 'image/png8',
       VERSION: '1.3.0',
       tiled: true,
-      STYLES:
-        'beijing_traffic:bus_line,beijing_traffic:subway_line,beijing_traffic:bus_stop,beijing_traffic:subway_stop',
-      LAYERS:
-        'beijing_traffic:bus_lines,beijing_traffic:subway_lines,beijing_traffic:bus_stops,beijing_traffic:subway_stops',
+      STYLES: styles.join(','),
+      LAYERS: layers.join(','),
       exceptions: 'application/vnd.ogc.se_inimage',
     },
     serverType: WMSServerType.GEOSERVER,
-  });
+  }));
+
+  useEffect(() => {
+    source.updateParams({
+      STYLES: styles.filter((_, i) => [bl, sl, bs, ss][i]).join(','),
+      LAYERS: layers.filter((_, i) => [bl, sl, bs, ss][i]).join(','),
+    });
+    source.refresh();
+  }, [bl, sl, bs, ss])
 
   const layer = new TileLayer({source});
 
-  return <OLMapWrapper onclick={(coord, _, map) => {
+  return <OLMapWrapper baseMap="simple" onclick={(coord, _, map) => {
 
     if (map) {
 
@@ -55,7 +72,24 @@ const RoadNet: React.FC = () => {
           });
       }
     }
-  }} layers={[layer]}/>;
+  }} extraLayers={[layer]}>
+    <Affix style={{position: 'absolute', zIndex: 10, right: 40, top: 40}}>
+      <Card>
+        <Form.Item label='公交线路'>
+          <Switch checked={bl} onChange={setBL}/>
+        </Form.Item>
+        <Form.Item label='地铁线路'>
+          <Switch checked={sl} onChange={setSL}/>
+        </Form.Item>
+        <Form.Item label='公交站点'>
+          <Switch checked={bs} onChange={setBS}/>
+        </Form.Item>
+        <Form.Item label='地铁站点'>
+          <Switch checked={ss} onChange={setSS}/>
+        </Form.Item>
+      </Card>
+    </Affix>
+  </OLMapWrapper>;
 };
 
 export default RoadNet;

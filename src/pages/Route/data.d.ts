@@ -19,13 +19,6 @@ type RoutingSummary = {
   }
 };
 
-export type Preference = {  // 对不同代价的倾向，默认无倾向
-  distance: number,
-  time: number,
-  price: number,
-  transfer_time: number
-};
-
 export type RoutingPlan = {
   summary: RoutingSummary,
   path: RoutingPath[]
