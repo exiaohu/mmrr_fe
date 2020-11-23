@@ -11,6 +11,7 @@ import {
   Form,
   Input,
   InputNumber,
+  message,
   Radio,
   Row
 } from 'antd';
@@ -179,7 +180,9 @@ const RoutingView: React.FC = () => {
       })
         .then(data => {
           setPlans(data.plans);
-        });
+        }).catch(reason => {
+        message.error(reason.toString());
+      });
     }}
     onReset={onReset}
     validateMessages={{

@@ -18,6 +18,7 @@ type OLMapProps = {
   extraLayers?: BaseLayer[] | BaseLayer,
   features?: Feature<Geometry>[] | Collection<Feature<Geometry>>,
   onclick?: (coord: [number, number], pixel: [number, number], map?: Map) => void
+  updateLegend?: (resolution?: number) => void
 }
 
 const OLMapWrapper: React.FC<OLMapProps> = (props) => {
@@ -81,6 +82,10 @@ const OLMapWrapper: React.FC<OLMapProps> = (props) => {
       controls: []
     })
 
+    if (props.updateLegend) {
+      props.updateLegend(initialMap.getView().getResolution());
+    }
+
     // save map and vector layer references to state
     setMap(initialMap)
     setFeaturesLayer(initalFeaturesLayer)
@@ -96,7 +101,7 @@ const OLMapWrapper: React.FC<OLMapProps> = (props) => {
         })
       )
     }
-  }, [props.features])
+  }, [props.features, featuresLayer])
 
   useEffect(() => {
     // set map onclick handler
@@ -108,7 +113,7 @@ const OLMapWrapper: React.FC<OLMapProps> = (props) => {
         const clickedCoord = mapRef.current && mapRef.current.getCoordinateFromPixel(event.pixel);
 
         if (props.onclick) {
-          props.onclick(
+          props?.onclick(
             [event.coordinate[0], event.coordinate[1]],
             [event.pixel[0], event.pixel[1]],
             mapRef.current
@@ -118,14 +123,18 @@ const OLMapWrapper: React.FC<OLMapProps> = (props) => {
         setSelectedCoord(clickedCoord);
       })
     }
-  }, [props.onclick])
+  }, [props.onclick, map])
 
-
-  // useEffect(() => {
-  //   if (map) {
-  //
-  //   }
-  // }, [props.extraLayers])
+  useEffect(() => {
+    if (map) {
+      map.on('change:resolution', (event) => {
+        const resolution = event.target.getResolution();
+        if (props.updateLegend) {
+          props.updateLegend(resolution);
+        }
+      })
+    }
+  }, [props.updateLegend, map])
 
   // render component
   return (

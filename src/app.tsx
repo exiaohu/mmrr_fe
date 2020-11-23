@@ -22,14 +22,14 @@ export async function getInitialState(): Promise<{
     return undefined;
   };
   // 如果是登录页面，不执行
-  if (history.location.pathname !== '/user/login') {
-    const currentUser = await fetchUserInfo();
-    return {
-      fetchUserInfo,
-      currentUser,
-      settings: defaultSettings,
-    };
-  }
+  // if (history.location.pathname !== '/user/login') {
+  //   const currentUser = await fetchUserInfo();
+  //   return {
+  //     fetchUserInfo,
+  //     currentUser,
+  //     settings: defaultSettings,
+  //   };
+  // }
   return {
     fetchUserInfo,
     settings: defaultSettings,
@@ -37,21 +37,21 @@ export async function getInitialState(): Promise<{
 }
 
 export const layout = ({
-  initialState,
-}: {
+                         initialState,
+                       }: {
   initialState: { settings?: LayoutSettings; currentUser?: API.CurrentUser };
 }): BasicLayoutProps => {
   return {
-    rightContentRender: () => <RightContent />,
+    rightContentRender: () => <RightContent/>,
     disableContentMargin: false,
-    footerRender: () => <Footer />,
+    footerRender: () => <Footer/>,
     onPageChange: () => {
-      const { currentUser } = initialState;
-      const { location } = history;
+      // const { currentUser } = initialState;
+      // const { location } = history;
       // 如果没有登录，重定向到 login
-      if (!currentUser?.userid && location.pathname !== '/user/login') {
-        history.push('/user/login');
-      }
+      // if (!currentUser?.userid && location.pathname !== '/user/login') {
+      //   history.push('/user/login');
+      // }
     },
     menuHeaderRender: undefined,
     ...initialState?.settings,
@@ -81,10 +81,10 @@ const codeMessage = {
  * 异常处理程序
  */
 const errorHandler = (error: ResponseError) => {
-  const { response } = error;
+  const {response} = error;
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
-    const { status, url } = response;
+    const {status, url} = response;
 
     notification.error({
       message: `请求错误 ${status}: ${url}`,

@@ -2,12 +2,13 @@ import {request} from 'umi';
 import {RoutingData, RoutingParams} from "./data";
 
 export async function routing(params: RoutingParams) {
-  return request<RoutingData>('/api/routing', {
+  return request('/api/routing', {
     params
   }).then(res => {
-    if (res.success) {
-      return res.data;
+    if (res.data) {
+      return res.data as RoutingData;
     }
-    return Promise.reject(Error("规划路线失败。"))
+    // eslint-disable-next-line prefer-promise-reject-errors
+    return Promise.reject(res.errorMessage)
   });
 }

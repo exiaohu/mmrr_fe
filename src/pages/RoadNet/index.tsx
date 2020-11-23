@@ -41,7 +41,6 @@ const RoadNet: React.FC = () => {
   const layer = new TileLayer({source});
 
   return <OLMapWrapper baseMap="simple" onclick={(coord, _, map) => {
-
     if (map) {
 
       const view = map.getView();
@@ -67,13 +66,14 @@ const RoadNet: React.FC = () => {
                     ))}
                   </Descriptions>
                 ),
+                duration: 10
               });
             }
           });
       }
     }
   }} extraLayers={[layer]}>
-    <Affix style={{position: 'absolute', zIndex: 10, right: 40, top: 40}}>
+    <Affix style={{position: 'absolute', zIndex: 10, left: 40, top: 40}}>
       <Card>
         <Form.Item label='公交线路'>
           <Switch checked={bl} onChange={setBL}/>

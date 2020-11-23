@@ -3,7 +3,7 @@ import {defineConfig} from 'umi';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 
-const { REACT_APP_ENV } = process.env;
+const {REACT_APP_ENV} = process.env;
 
 export default defineConfig({
   hash: true,
@@ -46,51 +46,57 @@ export default defineConfig({
       name: 'welcome',
       icon: 'smile',
       component: './Welcome',
+      access: 'canAccess'
     },
-    // {
-    //   path: '/admin',
-    //   name: 'admin',
-    //   icon: 'crown',
-    //   access: 'canAdmin',
-    //   component: './Admin',
-    //   routes: [
-    //     {
-    //       path: '/admin/sub-page',
-    //       name: 'sub-page',
-    //       icon: 'smile',
-    //       component: './Welcome',
-    //     },
-    //   ],
-    // },
+    {
+      path: '/admin',
+      name: 'admin',
+      icon: 'crown',
+      access: 'canAdmin',
+      component: './Admin',
+      routes: [
+        {
+          path: '/admin/sub-page',
+          name: 'sub-page',
+          icon: 'smile',
+          component: './Welcome',
+        },
+      ],
+    },
     {
       name: 'data',
       icon: 'table',
       path: '/data',
       component: './Data',
+      access: 'canAccess'
     },
     {
       name: 'road_net',
       icon: 'environment',
       path: '/road_net',
       component: './RoadNet',
+      access: 'canAccess'
     },
     {
       name: 'route',
       icon: 'bulb',
       path: '/route',
       component: './Route',
+      access: 'canAccess'
     },
     {
       name: 'availability',
       icon: 'car',
       path: '/availability',
       component: './Availability',
+      access: 'canAccess'
     },
     {
       name: 'results',
       icon: 'experiment',
       path: '/results',
-      component: './Results'
+      component: './Results',
+      access: 'canAccess'
     },
     {
       path: '/',

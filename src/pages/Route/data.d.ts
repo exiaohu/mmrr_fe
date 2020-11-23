@@ -25,10 +25,7 @@ export type RoutingPlan = {
 };
 
 export interface RoutingData {
-  success: bool,
-  data: {
-    plans: RoutingPlan[]
-  }
+  plans: RoutingPlan[]
 }
 
 export interface RoutingParams {

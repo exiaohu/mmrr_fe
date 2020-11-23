@@ -13,7 +13,7 @@ export default {
       pathRewrite: {'^': ''},
     },
     '/api/': {
-      target: 'http://localhost:8888',
+      target: 'http://219.224.165.132:2500',
       changeOrigin: true,
       pathRewrite: {'^': ''},
     }
@@ -25,7 +25,7 @@ export default {
       pathRewrite: {'^': ''},
     },
     '/api/': {
-      target: 'http://localhost:8888',
+      target: 'http://219.224.165.132:2500',
       changeOrigin: true,
       pathRewrite: {'^': ''},
     }
@@ -37,7 +37,7 @@ export default {
       pathRewrite: {'^': ''},
     },
     '/api/': {
-      target: 'http://localhost:8888',
+      target: 'http://219.224.165.132:2500',
       changeOrigin: true,
       pathRewrite: {'^': ''},
     }
