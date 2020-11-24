@@ -13,7 +13,8 @@ import {
   InputNumber,
   message,
   Radio,
-  Row
+  Row,
+  Spin
 } from 'antd';
 import Popup, {PopupProps} from "@/components/Popup";
 import {Feature} from "ol";
@@ -36,6 +37,8 @@ const RoutingView: React.FC = () => {
   const [coord, setCoord] = useState<[number, number]>();
   const [origin] = useState<Feature<Point>>(new Feature());
   const [destination] = useState<Feature<Point>>(new Feature());
+  const [loading, setLoading] = useState(false);
+
   trace.setStyle(new Style({
     stroke: new Stroke({
       color: '#00ffff',
@@ -172,8 +175,9 @@ const RoutingView: React.FC = () => {
     wrapperCol={{span: 20}}
     layout="horizontal"
     size='small'
-    onFinish={(params: RoutingParams) => {
-      routing({
+    onFinish={async (params: RoutingParams) => {
+      setLoading(true);
+      await routing({
         ...params,
         timestamp: (params.timestamp as Moment)?.unix(),
         total: 3
@@ -181,8 +185,9 @@ const RoutingView: React.FC = () => {
         .then(data => {
           setPlans(data.plans);
         }).catch(reason => {
-        message.error(reason.toString());
-      });
+          message.error(reason.toString());
+        });
+      setLoading(false);
     }}
     onReset={onReset}
     validateMessages={{
@@ -266,18 +271,20 @@ const RoutingView: React.FC = () => {
 
   return <OLMapWrapper baseMap='OSM' features={[origin, destination, trace]} onclick={onclick}>
     <Affix style={{position: 'absolute', zIndex: 10, right: 40, top: 40}}>
-      <Card>
-        <Row>
-          <Col span={24}>
-            {inputForm}
-          </Col>
-        </Row>
-        <Row hidden={!plans || plans.length === 0}>
-          <Col span={24}>
-            {planList}
-          </Col>
-        </Row>
-      </Card>
+      <Spin spinning={loading}>
+        <Card>
+          <Row>
+            <Col span={24}>
+              {inputForm}
+            </Col>
+          </Row>
+          <Row hidden={!plans || plans.length === 0}>
+            <Col span={24}>
+              {planList}
+            </Col>
+          </Row>
+        </Card>
+      </Spin>
     </Affix>
 
     <Popup {...popupProps}>
